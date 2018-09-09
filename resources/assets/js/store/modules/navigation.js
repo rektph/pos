@@ -1,6 +1,6 @@
 
 // initial state
-const state = { 
+export const state = { 
     drawer: false,
     items: [
         { title: 'Home', icon: 'dashboard' },
@@ -9,27 +9,19 @@ const state = {
 }
 
 // getters
-const getters = {
-    getDrawer: state => state.drawer,
-    getItems: state => state.items
+export const getters = {
+    drawer: state => state.drawer,
+    items: state => state.items
 }
 
 // actions
-const actions = {
+export const actions = {
     changeDrawer: ({commit}) => commit('showDrawer')
 }
 
 // mutations
-const mutations = {
+export const mutations = {
     showDrawer(state) {
         state.drawer = !state.drawer
     }
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
 }

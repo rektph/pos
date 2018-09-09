@@ -3,7 +3,7 @@
         app
         fixed
         :clipped=true
-        :value.sync="getDrawer"
+        :value="drawer"
         >
         <v-list class="pa-1">
             <v-list-tile avatar>
@@ -20,7 +20,7 @@
         <v-list class="pt-0" dense>
             <v-divider></v-divider>
             <v-list-tile
-            v-for="item in getItems"
+            v-for="item in items"
             :key="item.title" >
             <v-list-tile-action>
                 <v-icon>{{ item.icon }}</v-icon>
@@ -38,8 +38,9 @@
 import { mapGetters } from 'vuex'
 export default {
     name: 'Navigation',
-    computed: mapGetters('navigation',[
-        'getDrawer', 'getItems'
-    ])
+    computed: mapGetters({
+        drawer: 'navigation/drawer',
+        items: 'navigation/items'
+    })
 }
 </script>
