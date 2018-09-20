@@ -4,17 +4,17 @@
             <v-flex xs3></v-flex>
             <v-flex xs6>
                 <v-card>
-                    <v-flex class="px-4 pb-4 pt2">
+                    <v-flex class="px-4 pb-4 pt2">    
                         <v-card-title primary-title>
                         <div>
-                            <h3 class="headline mb-0">Welcome to <strong>POS</strong></h3>
+                            <h3 class="headline mb-0">Login</h3>
                             <v-divider></v-divider><br>
-                            <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis maxime, esse laudantium, accusamus sed minima neque tempore fugit iste iure necessitatibus error temporibus. Quod animi maxime eaque adipisci cum dicta.</div>
+                            Kiki
                         </div>
                         </v-card-title>
                         <v-card-actions>
-                        <v-btn flat color="primary" to="/login">Login</v-btn>
-                        <v-btn flat color="primary">Register</v-btn>
+                            <v-spacer/>
+                            <v-btn color="primary" tabindex="1" :disabled="loading">Login</v-btn>
                         </v-card-actions>
                     </v-flex>
                 </v-card>
@@ -25,10 +25,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-    name: 'HomeComponent',
-    methods: { }
+    name: 'LoginComponent',
+    methods: { },
+    computed: mapGetters({
+        loading: 'extras/loading'
+    }),
 }
 </script>

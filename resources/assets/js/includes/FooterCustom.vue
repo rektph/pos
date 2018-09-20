@@ -11,12 +11,13 @@
     >
       <v-btn
         v-for="link in links"
-        :key="link"
+        :key="link.key"
         color="white"
         flat
         round
+        :to="link.to"
       >
-        {{ link }}
+        {{ link.name }}
       </v-btn>
       <v-flex
         primary
@@ -37,13 +38,32 @@
     name: 'FooterCustom',
     data: () => ({
       links: [
-        'Home',
-        'About Us',
-        'Team',
-        'Services',
-        'Blog',
-        'Contact Us'
+        {
+          name: 'Home',
+          to: '/'
+        },
+        {
+          name: 'About Us',
+          to: '/about'
+        },
+        {
+          name: 'Services',
+          to: '/services'
+        },
+        {
+          name: 'Blog',
+          to: '/blog'
+        },
+        {
+          name: 'Contact Us',
+          to: '/contact'
+        },
+        {
+          name: 'Login',
+          to: '/login'
+        }        
       ]
-    })
+    }),
+    methods: { }
   }
 </script>
