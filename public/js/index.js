@@ -23382,7 +23382,6 @@ __webpack_require__(15);
 
 
 
-
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vuetify___default.a);
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.config.productionTip = false;
@@ -48280,7 +48279,7 @@ exports = module.exports = __webpack_require__(44)(false);
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active,\r\n.fade-leave-active {\r\n  -webkit-transition-duration: 0.3s;\r\n          transition-duration: 0.3s;\r\n  -webkit-transition-property: height, opacity;\r\n  transition-property: height, opacity;\r\n  -webkit-transition-timing-function: ease;\r\n          transition-timing-function: ease;\r\n  overflow: hidden;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.fade-enter-active,\r\n.fade-leave-active {\r\n  -webkit-transition-duration: 0.3s;\r\n          transition-duration: 0.3s;\r\n  -webkit-transition-property: height, opacity;\r\n  transition-property: height, opacity;\r\n  -webkit-transition-timing-function: ease;\r\n          transition-timing-function: ease;\r\n  overflow: hidden;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0\n}\n.full-width {\r\n    width: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -52054,7 +52053,7 @@ var render = function() {
                           _c(
                             "v-btn",
                             { attrs: { flat: "", color: "primary" } },
-                            [_vm._v("Register")]
+                            [_vm._v("Signup")]
                           )
                         ],
                         1
@@ -52167,15 +52166,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'LoginComponent',
-    methods: {},
-    computed: Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])({
-        loading: 'extras/loading'
-    })
+  name: 'LoginComponent',
+  data: function data() {
+    return {
+      valid: false,
+      password: '',
+      passwordRules: [function (v) {
+        return !!v || 'Password is required';
+      }],
+      email: '',
+      emailRules: [function (v) {
+        return !!v || 'E-mail is required';
+      }, function (v) {
+        return (/.+@.+/.test(v) || 'E-mail must be valid'
+        );
+      }]
+    };
+  },
+  methods: {},
+  computed: Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])({
+    loading: 'extras/loading'
+  })
 });
 
 /***/ }),
@@ -52210,15 +52239,57 @@ var render = function() {
                       _c("v-card-title", { attrs: { "primary-title": "" } }, [
                         _c(
                           "div",
+                          { staticClass: "full-width" },
                           [
                             _c("h3", { staticClass: "headline mb-0" }, [
-                              _vm._v("Login")
+                              _vm._v("Login to "),
+                              _c("strong", [_vm._v("POS")])
                             ]),
                             _vm._v(" "),
                             _c("v-divider"),
-                            _c("br"),
-                            _vm._v(
-                              "\n                        Kiki\n                    "
+                            _vm._v(" "),
+                            _c(
+                              "v-form",
+                              {
+                                model: {
+                                  value: _vm.valid,
+                                  callback: function($$v) {
+                                    _vm.valid = $$v
+                                  },
+                                  expression: "valid"
+                                }
+                              },
+                              [
+                                _c("v-text-field", {
+                                  staticClass: "pt-2",
+                                  attrs: { label: "E-mail", required: "" },
+                                  model: {
+                                    value: _vm.email,
+                                    callback: function($$v) {
+                                      _vm.email = $$v
+                                    },
+                                    expression: "email"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("v-text-field", {
+                                  staticClass: "pt-2 pb-2",
+                                  attrs: {
+                                    rules: _vm.errorRules,
+                                    label: "Password",
+                                    type: "password",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: _vm.password,
+                                    callback: function($$v) {
+                                      _vm.password = $$v
+                                    },
+                                    expression: "password"
+                                  }
+                                })
+                              ],
+                              1
                             )
                           ],
                           1

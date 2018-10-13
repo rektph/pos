@@ -62,5 +62,7 @@ export default {
 .fade-leave-active {
   opacity: 0
 }
-
+.full-width {
+    width: 100%;
+}
 </style>
