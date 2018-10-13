@@ -32,4 +32,4 @@ npm install
 php artisan key:generate
 ```
 
-## Then go to [pos.test](pos.test)
+## Then go to [pos.test](http://pos.test)
