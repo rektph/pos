@@ -6,6 +6,8 @@ import router from './router'
 import Vuetify from 'vuetify';
 import store from './store'
 
+const baseUrl = 'http://pos.test'
+
 Vue.use(Vuetify)
 
 Vue.config.productionTip = false

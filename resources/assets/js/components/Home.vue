@@ -7,7 +7,7 @@
                     <v-flex class="px-4 pb-4 pt2">
                         <v-card-title primary-title>
                         <div>
-                            <h3 class="headline mb-0">Welcome to <strong>POS</strong></h3>
+                            <h3 class="headline mb-0">Welcome to <strong>LaraVuePractice</strong></h3>
                             <v-divider></v-divider><br>
                             <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis maxime, esse laudantium, accusamus sed minima neque tempore fugit iste iure necessitatibus error temporibus. Quod animi maxime eaque adipisci cum dicta.</div>
                         </div>
