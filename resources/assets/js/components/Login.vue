@@ -4,6 +4,7 @@
             <v-flex xs3></v-flex>
             <v-flex xs6>
                 <v-card>
+                    <v-progress-linear :indeterminate="true" class="ma-0" :active="loading"></v-progress-linear>
                     <v-flex class="px-4 pb-4 pt2">    
                         <v-card-title primary-title>
                         <div class="full-width">
@@ -30,7 +31,6 @@
 
                         <v-card-actions>
                             <v-spacer/>
-                            <v-btn color="primary" tabindex="1">Register</v-btn>
                             <v-btn color="primary" tabindex="1" :loading="loading" @click="sendUser()">Login</v-btn>
                         </v-card-actions>
                     </v-flex>
@@ -48,33 +48,30 @@ export default {
     data: () => ({
         loading: false,
         valid: false,
+        email: '',
         password: '',
         passwordError: [],
-        emailError: [],
-        passwordRules: [
-            v => !!v || 'Password is required'
-        ],
-        email: '',
-        emailRules: [
-            v => !!v || 'E-mail is required',
-            v => /.+@.+/.test(v) || 'E-mail must be valid'
-        ]
+        emailError: []
     }),
     methods: { 
         sendUser() {
             this.loading = true
             this.emailError = []
             this.passwordError = []
-            axios.post(this.baseUrl + 'user/login', {email: this.email, password: this.password}).then((res)=>{
-                if(!res.data.success) {
+            axios.post(this.baseUrl + 'api/user/login', {
+                email: this.email,
+                password: this.password
+            }).then((res)=>{
+                if(!res.data.status) {
                     this.loading = false
                     this.emailError = ' '
                     this.passwordError = 'Invalid Inputs.'
                     return
                 }
                 
-
             }).catch((error)=>{
+                this.loading = false
+                this.passwordError = 'An Error has occured.'
                 console.log(error)
             })
         }

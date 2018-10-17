@@ -4,19 +4,31 @@
             <v-flex xs3></v-flex>
             <v-flex xs6>
                 <v-card>
+                    <v-progress-linear :indeterminate="true" class="ma-0" :active="loading"></v-progress-linear>
                     <v-flex class="px-4 pb-4 pt2">    
                         <v-card-title primary-title>
                         <div class="full-width">
                             <h3 class="headline mb-0">Register to <strong>LaraVuePractice</strong></h3>
                             <v-divider></v-divider>
                             <v-form>
-                                <v-text-field
-                                    class="pt-2"
-                                    v-model="name"
-                                    :disabled="loading"
-                                    :error-messages="nameError"
-                                    label="First Name"
-                                    required />
+                                <v-layout row class="pt-2">
+                                    <v-flex>
+                                        <v-text-field
+                                            v-model="fname"
+                                            :disabled="loading"
+                                            :error-messages="fnameError"
+                                            label="First Name"
+                                            required />
+                                    </v-flex>
+                                    <v-flex>
+                                        <v-text-field
+                                            v-model="lname"
+                                            :disabled="loading"
+                                            :error-messages="lnameError"
+                                            label="Last Name"
+                                            required />
+                                    </v-flex>
+                                </v-layout>
                                 <v-text-field
                                     v-model="email"
                                     :disabled="loading"
@@ -36,8 +48,7 @@
 
                         <v-card-actions>
                             <v-spacer/>
-                            <v-btn color="primary" tabindex="1">Register</v-btn>
-                            <v-btn color="primary" tabindex="1" :loading="loading" @click="sendUser()">Login</v-btn>
+                            <v-btn color="primary" tabindex="1" @click="sendUser()">Register</v-btn>
                         </v-card-actions>
                     </v-flex>
                 </v-card>
@@ -53,10 +64,12 @@ export default {
     name: 'Login',
     data: () => ({
         loading: false,
-        name: '',
+        fname: '',
+        lname: '',
         email: '',
         password: '',
-        nameError: [],
+        fnameError: [],
+        lnameError: [],
         passwordError: [],
         emailError: [],
     }),
@@ -65,18 +78,29 @@ export default {
             this.loading = true
             this.emailError = []
             this.passwordError = []
-            axios.post(this.baseUrl + 'user/login', {
-                email: this.email, 
-                password: this.password
+            axios.post(this.baseUrl + 'api/user/register', {
+                email: this.email,
+                password: this.password,
+                fname: this.fname,
+                lname: this.lname
             }).then((res)=>{
-                if(!res.data.success) {
-                    this.loading = false
-                    this.emailError = ' '
-                    this.passwordError = 'Invalid Inputs.'
-                    return
+                console.log(res.data)
+                fname = lname = email = password =  ''
+                switch(res.data.status) {
+                    case 1:
+                        this.$store.commit('extras/changesnackbartext', "wtf")
+                        this.$store.dispatch('extras/showsnackbar')
+                    break
+                    case 1062:
+                        this.loading = false
+                        this.emailError = 'Email has been already used'
+                        return
+                    break
                 }
-                
             }).catch((error)=>{
+                this.loading = false
+                this.emailError = ' '
+                this.passwordError = 'An Error has occured.'
                 console.log(error)
             })
         }

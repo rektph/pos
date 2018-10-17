@@ -9,6 +9,7 @@
             </transition>
         </v-content>
         <footer-custom></footer-custom>
+        <snackbar/>
     </v-app>
 </template>
 
@@ -16,6 +17,7 @@
 import Toolbar from './includes/Toolbar'
 import Navigation from './includes/Navigation'
 import FooterCustom from './includes/FooterCustom'
+import Snackbar from './includes/Snackbar'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -23,7 +25,8 @@ export default {
     components: {
         Toolbar,
         Navigation,
-        FooterCustom
+        FooterCustom,
+        Snackbar
     },
     computed: mapGetters({
         user: 'auth/user',
