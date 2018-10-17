@@ -37,28 +37,41 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|unique:email',
-            'password' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            print_r($validator);
-        }
-        die();
+    public function store(Request $request) {
         if($request->isMethod('post')) {
-            $data = array("name"=>$request->input("fname") . ' ' . $request->input("lname"),
-            "email"=>$request->input("email"),
-            "password"=>password_hash($request->input("password"), PASSWORD_DEFAULT));  
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required',
+                'fname' => 'required',
+                'lname' => 'required',
+                'confpassword' => 'required'
+            ]);
+            $names=array('email'=>"Email", 'password'=>"Password", 'fname'=>"First Name", 'lname'=>"Last Name", 'confpassword'=>"Confirm Password");
+            $validator->setAttributeNames($names);
+            if ($validator->fails()) {
+                return response()->json(["status"=>2,"errors"=>$validator->errors()]);
+            }
+            // $data = array("email"=>,
+            // "password"=>,        
+            // "name"=>());
             $user = new User;
-            $user->content = $data;
+            #print_r($request->input());
+            # print_r($data);
+            # $user->content = $data;
+            $user->name = $request->input("fname") . ' ' . $request->input("lname");
+            $user->email = $request->input("email");
+            $user->password = password_hash($request->input("password"), PASSWORD_DEFAULT);
+            #print_r($user);
+            
             try {
                 if($user->save()) {
                     return response()->json(["status"=>1]);
                 }
-            } catch (QueryException $e){
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+            
+            catch (QueryException $e){
                 $errorCode = $e->errorInfo[1];
                 if($errorCode == 1062){
                     return response()->json(["status"=>1062]);

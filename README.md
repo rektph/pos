@@ -17,14 +17,14 @@ npm install
 ## Copy this to c:/xampp/conf/extras/httpd-vhost.conf
 ```
 <VirtualHost **:80>
-    DocumentRoot "C:/xampp/htdocs/pos/public"
-    ServerName pos.test
+    DocumentRoot "C:/xampp/htdocs/laravueprac/public"
+    ServerName laravueprac.test
 </VirtualHost>
 ```
 
 ## Copy this to c:/Windows/System32/drivers/etc/hosts
 ```
-127.0.0.1 pos.test
+127.0.0.1 laravueprac.test
 ```
 
 ## Create a .env file on the project folder then run this command
@@ -32,4 +32,4 @@ npm install
 php artisan key:generate
 ```
 
-## Then go to [pos.test](http://pos.test)
+## Then go to [laravueprac.test](http://laravueprac.test)

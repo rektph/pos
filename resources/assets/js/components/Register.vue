@@ -35,20 +35,34 @@
                                     :error-messages="emailError"
                                     label="E-mail"
                                     required />
-                                <v-text-field
-                                    v-model="password"
-                                    :disabled="loading"
-                                    :error-messages="passwordError"
-                                    label="Password"
-                                    type="password"
-                                    required />
+                                <v-layout row class="pt-2">
+                                    <v-flex>
+                                        <v-text-field
+                                            v-model="password"
+                                            :disabled="loading"
+                                            :error-messages="passwordError"
+                                            label="Password"
+                                            type="password"
+                                            required />
+                                    </v-flex>
+                                    <v-flex>
+                                        <v-text-field
+                                            v-model="confpassword"
+                                            :disabled="loading"
+                                            :error-messages="confpasswordError"
+                                            label="Confirm Password"
+                                            type="password"
+                                            required />
+                                    </v-flex>
+                                </v-layout>
+                                
                             </v-form>
                         </div>
                         </v-card-title>
 
                         <v-card-actions>
                             <v-spacer/>
-                            <v-btn color="primary" tabindex="1" @click="sendUser()">Register</v-btn>
+                            <v-btn color="primary" tabindex="1" :loading="loading" @click="sendUser()">Register</v-btn>
                         </v-card-actions>
                     </v-flex>
                 </v-card>
@@ -68,9 +82,11 @@ export default {
         lname: '',
         email: '',
         password: '',
+        confpassword: '',
         fnameError: [],
         lnameError: [],
         passwordError: [],
+        confpasswordError: [],
         emailError: [],
     }),
     methods: { 
@@ -78,29 +94,51 @@ export default {
             this.loading = true
             this.emailError = []
             this.passwordError = []
+            this.confpasswordError = []
+            this.fnameError = []
+            this.lnameError = []
             axios.post(this.baseUrl + 'api/user/register', {
                 email: this.email,
                 password: this.password,
+                confpassword: this.confpassword,
                 fname: this.fname,
                 lname: this.lname
             }).then((res)=>{
                 console.log(res.data)
-                fname = lname = email = password =  ''
                 switch(res.data.status) {
                     case 1:
-                        this.$store.commit('extras/changesnackbartext', "wtf")
-                        this.$store.dispatch('extras/showsnackbar')
+                        this.loading = false
+                        this.$store.commit('snackbar/showSnack', {"text":"Success", "icon":"info", "color":"green"})
+                    break
+                    case 2:
+                        this.loading = false
+                        if("email" in res.data.errors) {
+                            this.emailError = res.data.errors.email[0]
+                        }
+                        if("confpassword" in res.data.errors) {
+                            this.confpasswordError = res.data.errors.confpassword[0]
+                        }
+                        if("password" in res.data.errors) {
+                            this.passwordError = res.data.errors.password[0]
+                        }
+                        if("fname" in res.data.errors) {
+                            this.fnameError = res.data.errors.fname[0]
+                        }
+                        if("lname" in res.data.errors) {
+                            this.lnameError = res.data.errors.lname[0]
+                        }
+                        this.$store.commit('snackbar/showSnack', {"text":"Validation Failed", "icon":"warning", "color":"red"})
                     break
                     case 1062:
                         this.loading = false
                         this.emailError = 'Email has been already used'
+                        this.$store.commit('snackbar/showSnack', {"text":"Error Occured", "icon":"warning", "color":"red"})
                         return
                     break
                 }
             }).catch((error)=>{
                 this.loading = false
-                this.emailError = ' '
-                this.passwordError = 'An Error has occured.'
+                this.$store.commit('snackbar/showSnack', {"text":"Error Occured", "icon":"warning", "color":"red"})
                 console.log(error)
             })
         }
