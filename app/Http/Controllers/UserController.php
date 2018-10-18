@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
@@ -119,11 +120,12 @@ class UserController extends Controller
     }
 
     public function login(Request $request) {
-        if($request->isMethod('post')) {
-            if($request->input('email') == "ken@gmail.com" && $request->input('password') == "kencosca329")
-                return ['status' => 1];
-            else
-                return ['status' => 0];
+        try {
+            $user = User::where('email', $request->input("email"))->firstOrFail();
+            
+            return ["status"=>1, "token"=>$user];
+        } catch(ModelNotFoundException $e) {
+            return ["status"=>0];
         }
     }
 }
