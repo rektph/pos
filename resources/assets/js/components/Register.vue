@@ -10,7 +10,7 @@
                         <div class="full-width">
                             <h3 class="headline mb-0">Register to <strong>LaraVuePractice</strong></h3>
                             <v-divider></v-divider>
-                            <v-form>
+                            <v-form ref="regform">
                                 <v-layout row class="pt-2">
                                     <v-flex>
                                         <v-text-field
@@ -59,7 +59,6 @@
                             </v-form>
                         </div>
                         </v-card-title>
-
                         <v-card-actions>
                             <v-spacer/>
                             <v-btn color="primary" tabindex="1" :loading="loading" @click="sendUser()">Register</v-btn>
@@ -87,7 +86,7 @@ export default {
         lnameError: [],
         passwordError: [],
         confpasswordError: [],
-        emailError: [],
+        emailError: []
     }),
     methods: { 
         sendUser() {
@@ -104,47 +103,43 @@ export default {
                 fname: this.fname,
                 lname: this.lname
             }).then((res)=>{
-                console.log(res.data)
                 switch(res.data.status) {
                     case 1:
                         this.loading = false
+                        this.$refs.regform.reset()
                         this.$store.commit('snackbar/showSnack', {"text":"Success", "icon":"info", "color":"green"})
                     break
                     case 2:
                         this.loading = false
-                        if("email" in res.data.errors) {
-                            this.emailError = res.data.errors.email[0]
+                        for(var key in res.data.errors) {
+                            switch(key) {
+                                case "email":
+                                    this.emailError = res.data.errors.email[0]
+                                break
+                                case "confpassword":
+                                    this.confpasswordError = res.data.errors.confpassword[0]
+                                break
+                                case "password":
+                                    this.passwordError = res.data.errors.password[0]
+                                break
+                                case "fname":
+                                    this.fnameError = res.data.errors.fname[0]
+                                break
+                                case "lname":
+                                    this.lnameError = res.data.errors.lname[0]
+                                break
+                            }
                         }
-                        if("confpassword" in res.data.errors) {
-                            this.confpasswordError = res.data.errors.confpassword[0]
-                        }
-                        if("password" in res.data.errors) {
-                            this.passwordError = res.data.errors.password[0]
-                        }
-                        if("fname" in res.data.errors) {
-                            this.fnameError = res.data.errors.fname[0]
-                        }
-                        if("lname" in res.data.errors) {
-                            this.lnameError = res.data.errors.lname[0]
-                        }
-                        this.$store.commit('snackbar/showSnack', {"text":"Validation Failed", "icon":"warning", "color":"red"})
-                    break
-                    case 1062:
-                        this.loading = false
-                        this.emailError = 'Email has been already used'
-                        this.$store.commit('snackbar/showSnack', {"text":"Error Occured", "icon":"warning", "color":"red"})
-                        return
+                        this.$store.commit('snackbar/showSnack', {"text":"Input Errors", "icon":"warning", "color":"red"})
                     break
                 }
             }).catch((error)=>{
                 this.loading = false
-                this.$store.commit('snackbar/showSnack', {"text":"Error Occured", "icon":"warning", "color":"red"})
-                console.log(error)
+                this.$store.commit('snackbar/showSnack', {"text":"Internal Server Error", "icon":"warning", "color":"red"})
             })
         }
     },
     computed: mapGetters({
-        // loading: 'extras/loading'
         baseUrl: 'extras/baseUrl'
     }),
 }

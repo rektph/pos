@@ -41,10 +41,10 @@ class UserController extends Controller
         if($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email|unique:users,email',
-                'password' => 'required',
-                'fname' => 'required',
-                'lname' => 'required',
-                'confpassword' => 'required'
+                'password' => 'required|min:6|max:191',
+                'fname' => 'required|alpha',
+                'lname' => 'required|alpha',
+                'confpassword' => 'required|min:6|max:191|same:password'
             ]);
             $names=array('email'=>"Email", 'password'=>"Password", 'fname'=>"First Name", 'lname'=>"Last Name", 'confpassword'=>"Confirm Password");
             $validator->setAttributeNames($names);
@@ -57,10 +57,12 @@ class UserController extends Controller
             $user = new User;
             #print_r($request->input());
             # print_r($data);
-            # $user->content = $data;
+            # $user->content = $data;123123
             $user->name = $request->input("fname") . ' ' . $request->input("lname");
             $user->email = $request->input("email");
             $user->password = password_hash($request->input("password"), PASSWORD_DEFAULT);
+            $user->status = 1;
+            $user->ipaddress = $request->ip();
             #print_r($user);
             
             try {
