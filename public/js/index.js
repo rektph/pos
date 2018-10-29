@@ -52768,7 +52768,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -52805,7 +52804,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 fname: this.fname,
                 lname: this.lname
             }).then(function (res) {
-                console.log(res.data);
+                console.log(res);
                 switch (res.data.status) {
                     case 1:
                         _this.loading = false;
@@ -52839,7 +52838,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 _this.loading = false;
                 _this.$store.commit('snackbar/showSnack', { "text": "Internal Server Error", "icon": "warning", "color": "red" });
-                console.log(error);
             });
         }
     },
@@ -73303,9 +73301,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var state = {
     loading: false,
     snackbar: false,
-    baseUrl: 'http://laravueprac.test/',
-    text: '',
-    alerttype: 'info'
+    baseUrl: 'http://laravueprac.test/'
 
     // getters
 };var getters = {
@@ -73317,12 +73313,6 @@ var state = {
     },
     baseUrl: function baseUrl(state) {
         return state.baseUrl;
-    },
-    text: function text(state) {
-        return state.text;
-    },
-    alerttype: function alerttype(state) {
-        return state.alerttype;
     }
 
     // actions
@@ -73330,39 +73320,12 @@ var state = {
     loadpage: function loadpage(_ref) {
         var commit = _ref.commit;
         return commit('loadpage');
-    },
-    showsnackbar: function showsnackbar(_ref2) {
-        var commit = _ref2.commit;
-        return commit('showsnackbar', payload);
-    },
-    closesnackbar: function closesnackbar(_ref3) {
-        var commit = _ref3.commit;
-        return commit('closesnackbar');
     }
 
     // mutations
 };var mutations = {
     loadpage: function loadpage(state) {
         state.loading = !state.loading;
-    },
-    showsnackbar: function showsnackbar(state, payload) {
-        state.snackbar = true;
-        state.text = payload.text;
-        state.alerttype = payload.type;
-        // switch(type) {
-        //     case "info":
-        //         state.alerttype = type//"info"
-        //     break
-        //     case "alert":
-        //         state.alerttype = type//"primary"
-        //     break
-        //     case "error":
-        //         state.alerttype = type//"red"
-        //     break
-        // }
-    },
-    closesnackbar: function closesnackbar(state) {
-        state.snackbar = false;
     }
 };
 

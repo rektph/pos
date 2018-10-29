@@ -103,6 +103,7 @@ export default {
                 fname: this.fname,
                 lname: this.lname
             }).then((res)=>{
+                console.log(res);
                 switch(res.data.status) {
                     case 1:
                         this.loading = false

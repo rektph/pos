@@ -39,6 +39,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        print_r($request->input());
+        echo json_encode($request->input());
+        die();
         if($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email|unique:users,email',
